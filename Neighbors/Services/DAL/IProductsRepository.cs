@@ -1,4 +1,5 @@
-﻿using Neighbors.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Neighbors.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,20 +7,36 @@ using System.Threading.Tasks;
 
 namespace Neighbors.Services.DAL
 {
-	interface IProductsRepository
+	public interface IProductsRepository
 	{
-		bool AddProduct(Product newProduct);
+		#region Add, Delete update
+		Task<int> AddProduct(Product newProduct);
 
-		bool DeleteProduct(int productId);
+		Task<int> DeleteProduct(int productId);
 
-		bool UpdateProduct(int productId, Product updatedProduct);
+		Task<int> UpdateProduct(int productId, Product product);
 
-		Product GetProductByName(int id);
+        #endregion
 
-		ICollection<Product> GetProductsByName(string name);
+        #region Getters
 
-		ICollection<Product> GetProductsByCategory(Category category);
+        Task<Product> GetProductById(int id);
 
-		ICollection<Product> GetProductsByCity(string City);
+		Task<ICollection<Product>> GetAllProducts();
+
+		Task<ICollection<Product>> SearchForProduct(ISearchModel searchModel);
+
+		Task<ICollection<CountModel>> GetProductsGroupedByCategory();
+
+		Task<ICollection<CountModel>> GetProductsGroupedByCity();
+
+		#endregion
+
+		#region Helpers
+
+		bool ProductExists(int id);
+
+		#endregion
+
 	}
 }
